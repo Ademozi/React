@@ -16,35 +16,66 @@
         function ChatInput() {
             return (
                 <>
-                    <input placeholder="Send message to the Chatbot" size="30" />
+                    <input 
+                      placeholder="Send message to the Chatbot" 
+                      size="30" 
+                    />
                     <button>Send</button>
                 </>
             );
         }
 
         function ChatMessage(props) {
-          const messgae = props.message;
+          // destructuring
+          // same as const message = props.message; const sender = props.sender;
+          const {message, sender} = props;
+          // or write {message, sender} as parameter of the function instead of props
+
+          /*
+          if (sender === "robot") {
             return (
               // we use div instead of <> because a div is block element that take a full line
               <div>
+                <img src="robot.png" width="50" />
                 {message}
-                <img src="user.png" width="50" />
-              </div>
+                </div>
             );
+          }
+          */
+
+          return (
+            // we use div instead of <> because a div is block element that take a full line
+            <div>
+              {/* this is the guard operator */}
+              {sender === "robot" && (
+                <img src="robot.png" width="50" />
+              )}
+              {message}
+              {sender === "user" && (
+                <img src="user.png" width="50" />
+              )}
+            </div>
+          );
         }
 
-        const app = (
+        function App() {
+          return (
             <>
                 {/* ChatInput() */}
                 {/* This is another way to use the component */}
                 {/* by using React we can create our own HTML elements */}
                 <ChatInput></ChatInput> 
-                <ChatMessage message="hello chatbot" />
-            </>
-        );
+                <ChatMessage message="hello chatbot" sender="user" />
+                <ChatMessage message="Hello! How can I help you?" sender="robot" />
+                <ChatMessage message="can you get me todays date?" sender="user" />
+                <ChatMessage message="Today is September 27" sender="robot" />
+            </> 
+          );
+        }
+
 
       const container = document.querySelector('.js-container');
-      ReactDOM.createRoot(container).render(app);
+      ReactDOM.createRoot(container).render(<App />);
     </script>
   </body>
 </html>
