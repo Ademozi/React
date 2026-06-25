@@ -16,9 +16,20 @@
         function ChatInput() {
             return (
                 <>
-                    <input />
+                    <input placeholder="Send message to the Chatbot" size="30" />
                     <button>Send</button>
                 </>
+            );
+        }
+
+        function ChatMessage(props) {
+          const messgae = props.message;
+            return (
+              // we use div instead of <> because a div is block element that take a full line
+              <div>
+                {message}
+                <img src="user.png" width="50" />
+              </div>
             );
         }
 
@@ -28,6 +39,7 @@
                 {/* This is another way to use the component */}
                 {/* by using React we can create our own HTML elements */}
                 <ChatInput></ChatInput> 
+                <ChatMessage message="hello chatbot" />
             </>
         );
 
