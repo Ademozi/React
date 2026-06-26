@@ -33,6 +33,8 @@
                 id: crypto.randomUUID()
               }
             ]);
+
+            setInputText('');
           }
 
             return (
@@ -41,6 +43,8 @@
                       placeholder="Send message to the Chatbot" 
                       size="30" 
                       onChange={saveInputText}
+                      // when the inputText becomes empty this will become empty too
+                      value={inputText}
                     />
                     <button
                       onClick={sendMessage}
