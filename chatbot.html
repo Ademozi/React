@@ -9,6 +9,8 @@
     <script src="https://unpkg.com/supersimpledev/react.js"></script>
     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
 
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     
     <!-- type="text/babel" to transform JSX into JavaScript -->
@@ -25,11 +27,24 @@
           }
 
           function sendMessage() {
-            setChatMessages([
+            const newChatMessages = [
               ...chatMessages,
               {
                 message: inputText,
                 sender: 'user',
+                id: crypto.randomUUID()
+              }
+            ];
+
+            setChatMessages(newChatMessages);
+
+            // from the external library
+            const response = Chatbot.getResponse(inputText);
+            setChatMessages([
+              ...newChatMessages,
+              {
+                message: response,
+                sender: 'robot',
                 id: crypto.randomUUID()
               }
             ]);
