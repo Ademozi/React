@@ -2,6 +2,32 @@
 <html>
   <head>
     <title>Chatbot</title>
+    <style>
+      .send-button {
+        background-color: rgb(25, 135, 84);
+        color: white;
+        /* the first value is vertical space */
+        /* the second value is horizontal space */
+        padding: 12px 20px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .chat-input {
+        padding: 12px 15px;
+        border-radius: 10px;
+        border-width: 1px;
+        font-size: 15px;
+
+        flex-grow: 1;
+      }
+      .chat-input-container {
+        display: flex;
+      }
+    </style>
   </head>
   <body>
     <div class="js-container"></div>
@@ -53,18 +79,20 @@
           }
 
             return (
-                <>
+                <div className="chat-input-container">
                     <input 
                       placeholder="Send message to the Chatbot" 
                       size="30" 
                       onChange={saveInputText}
                       // when the inputText becomes empty this will become empty too
                       value={inputText}
+                      className="chat-input"
                     />
                     <button
                       onClick={sendMessage}
+                      className="send-button"
                     >Send</button>
-                </>
+                </div>
             );
         }
 
