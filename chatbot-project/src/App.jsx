@@ -1,103 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Chatbot V2</title>
-    <style>
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-        margin-top: 0px;
-        margin-bottom: 0px;
-      }
+// if we write react directly without / or./ this will search inside node-modules
+import { useState, useRef, useEffect } from 'react';
+import { Chatbot } from 'supersimpledev';
+import RobotProfileImage from './assets/robot.png';
+import UserProfileImage from './assets/user.png';
+import LoadingSpinner from './assets/loading-spinner.gif';
+import './App.css'
 
-      .send-button {
-        background-color: rgb(25, 135, 84);
-        color: white;
-        /* the first value is vertical space */
-        /* the second value is horizontal space */
-        padding: 12px 20px;
-        margin-left: 10px;
-        border: none;
-        border-radius: 10px;
-        font-size: 15px;
-        cursor: pointer;
-      }
-
-      .chat-input {
-        padding: 12px 15px;
-        border-radius: 10px;
-        border-width: 1px;
-        font-size: 15px;
-
-        flex-grow: 1;
-      }
-
-      .chat-input-container {
-        display: flex;
-        margin-bottom: 60px;
-      }
-
-      .app-container {
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        /* 100vh = 100% of the height of the browser */
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .chat-message-user {
-        display: flex;
-        justify-content: end;
-        align-items: start;
-      }
-
-      .chat-message-robot {
-        display: flex;
-        align-items: start;
-      }
-
-      .chat-message-text {
-        background-color: rgb(238, 238, 238);
-        padding: 15px 20px;
-        border-radius: 10px;
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 20px;
-        max-width: 300px;
-      }
-
-      .chat-message-profile { 
-        width: 45px;
-      }
-
-      .chat-messages-container {
-        flex-grow: 1;
-        margin-top: 20px;
-        overflow: scroll;
-        scrollbar-width: none;
-      }
-
-      .welcome-message {
-        color: rgb(120, 120, 120);
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="js-container"></div>
-
-    <script src="https://unpkg.com/supersimpledev/react.js"></script>
-    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
-
-    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
-
-    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
-    
-    <!-- type="text/babel" to transform JSX into JavaScript -->
-    <script type="text/babel">
         function ChatInput({ chatMessages, setChatMessages }) {
-          const [inputText, setInputText] = React.useState('')
+          const [inputText, setInputText] = useState('')
 
           function saveInputText(event) {
             // event.target = gives us the element that we're typing in
@@ -118,7 +28,7 @@
               // add the Loading... message to the newChatMessages
               // but we have to remove it later
               {
-                message: 'Loading...',
+                message: <img src={LoadingSpinner} className="loading-spinner" />,
                 sender: 'robot',
                 id: crypto.randomUUID()
               }
@@ -187,25 +97,25 @@
             }>
               {/* this is the guard operator */}
               {sender === "robot" && (
-                <img src="robot.png" className="chat-message-profile" />
+                <img src={RobotProfileImage} className="chat-message-profile" />
               )}
               <div className="chat-message-text">
                 {message}
               </div>
               {sender === "user" && (
-                <img src="user.png" className="chat-message-profile" />
+                <img src={UserProfileImage} className="chat-message-profile" />
               )}
             </div>
           );
         }
 
         function ChatMessages({ chatMessages }) {
-          const chatMessagesRef = React.useRef(null);
+          const chatMessagesRef = useRef(null);
 
           // react will run this function:
           // after components is created
           // every time the component is updated
-          React.useEffect(() => {
+          useEffect(() => {
             const containerElem = chatMessagesRef.current;
             if (chatMessagesRef) {
               containerElem.scrollTop = containerElem.scrollHeight;
@@ -232,9 +142,8 @@
           );
         }
 
-
-        function App() {
-          const [chatMessages, setChatMessages] = React.useState([]);
+function App() {
+          const [chatMessages, setChatMessages] = useState([]);
           // useState has two elements in the array, 
           // the first is the state 
           // and the second is the function to update the state
@@ -265,13 +174,6 @@
                 /> 
             </div> 
           );
-        }
+}
 
-
-      const container = document.querySelector('.js-container');
-      ReactDOM.createRoot(container).render(<App />);
-    </script>
-  </body>
-</html>
-
-<!-- 3:35 -->
+export default App
