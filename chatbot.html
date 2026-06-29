@@ -5,6 +5,8 @@
     <style>
       body {
         font-family: Arial, Helvetica, sans-serif;
+        margin-top: 0px;
+        margin-bottom: 0px;
       }
 
       .send-button {
@@ -28,14 +30,20 @@
 
         flex-grow: 1;
       }
+
       .chat-input-container {
         display: flex;
+        margin-bottom: 60px;
       }
 
       .app-container {
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
+        /* 100vh = 100% of the height of the browser */
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
 
       .chat-message-user {
@@ -61,6 +69,13 @@
 
       .chat-message-profile { 
         width: 45px;
+      }
+
+      .chat-messages-container {
+        flex-grow: 1;
+        margin-top: 20px;
+        overflow: scroll;
+        scrollbar-width: none;
       }
     </style>
   </head>
@@ -171,8 +186,25 @@
         }
 
         function ChatMessages({ chatMessages }) {
+          const chatMessagesRef = React.useRef(null);
+
+          // react will run this function:
+          // after components is created
+          // every time the component is updated
+          React.useEffect(() => {
+            const containerElem = chatMessagesRef.current;
+            if (chatMessagesRef) {
+              containerElem.scrollTop = containerElem.scrollHeight;
+              // scrollTop = how far from the top should we scroll
+              // scrollHeight = total height of the element
+            }
+          }, [chatMessages]);
+          // [] Controls when useEffect runs
+          // empty [] = only run once, after the component is created
+
           return (
-            <>
+            <div className="chat-messages-container"
+            ref={chatMessagesRef}>
               {chatMessages.map((chatMessage) => {
                 return (
                   <ChatMessage 
@@ -182,7 +214,7 @@
                   />
                 );
               })}
-            </>
+            </div>
           );
         }
 
@@ -223,13 +255,13 @@
                 {/* ChatInput() */}
                 {/* This is another way to use the component */}
                 {/* by using React we can create our own HTML elements */}
+                <ChatMessages
+                  chatMessages={chatMessages}
+                />
                 <ChatInput
                   chatMessages = {chatMessages}
                   setChatMessages = {setChatMessages}
                 /> 
-                <ChatMessages
-                  chatMessages={chatMessages}
-                />
             </div> 
           );
         }
@@ -241,4 +273,4 @@
   </body>
 </html>
 
-<!-- 3:22 -->
+<!-- 3:35 -->
