@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chatbot</title>
+    <title>Chatbot V2</title>
     <style>
       body {
         font-family: Arial, Helvetica, sans-serif;
@@ -77,6 +77,11 @@
         overflow: scroll;
         scrollbar-width: none;
       }
+
+      .welcome-message {
+        color: rgb(120, 120, 120);
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -109,15 +114,25 @@
                 message: inputText,
                 sender: 'user',
                 id: crypto.randomUUID()
+              },
+              // add the Loading... message to the newChatMessages
+              // but we have to remove it later
+              {
+                message: 'Loading...',
+                sender: 'robot',
+                id: crypto.randomUUID()
               }
             ];
 
             setChatMessages(newChatMessages);
 
+            // (clear the textbox immediately after clicking Send).
+            setInputText('');
+
             // from the external library
             const response = await Chatbot.getResponseAsync(inputText);
             setChatMessages([
-              ...newChatMessages,
+              ...newChatMessages.slice(0, newChatMessages.length - 1),
               {
                 message: response,
                 sender: 'robot',
@@ -125,7 +140,6 @@
               }
             ]);
 
-            setInputText('');
           }
 
             return (
@@ -220,26 +234,7 @@
 
 
         function App() {
-          const [chatMessages, setChatMessages] = React.useState(
-            [{
-            message: "hello chatbot",
-            sender: "user",
-            id: "id1"
-          },{
-            message: "Hello! How can I help you?", 
-            sender: "robot",   
-            id: "id2"
-          },{
-            message: "can you get me todays date?",
-            sender: "user",
-            id: "id3"
-          },{
-            message: "Today is September 27", 
-            sender: "robot",
-            id: "id4"
-          }]
-          );
-
+          const [chatMessages, setChatMessages] = React.useState([]);
           // useState has two elements in the array, 
           // the first is the state 
           // and the second is the function to update the state
@@ -252,6 +247,12 @@
 
           return (
             <div className="app-container">
+                {chatMessages.length === 0 && (
+                    <p className="welcome-message">
+                        Welcome to the chatbot project! Send a message using the textbox below.    
+                    </p>
+                )}
+
                 {/* ChatInput() */}
                 {/* This is another way to use the component */}
                 {/* by using React we can create our own HTML elements */}
