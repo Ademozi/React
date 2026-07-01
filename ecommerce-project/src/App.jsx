@@ -11,7 +11,8 @@ function App() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/cart-items')
+    // ?expand=product backend will add product details to the cart items
+    axios.get('/api/cart-items?expand=product')
       .then((response) => {
     setCart(response.data);
     });
